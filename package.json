@@ -1,23 +1,15 @@
 {
   "name": "lab3-meteo",
   "version": "1.0.0",
-  "description": "",
+  "description": "CLI-програма для перегляду даних метеостанції",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/maksimtoyb-hub/lab3-meteo.git"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/maksimtoyb-hub/lab3-meteo/issues"
-  },
-  "homepage": "https://github.com/maksimtoyb-hub/lab3-meteo#readme",
   "dependencies": {
     "commander": "^15.0.0"
   }
