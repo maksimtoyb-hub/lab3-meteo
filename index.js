@@ -5,26 +5,26 @@ const program = new Command();
 
 program
     .name('meteo')
-    .description('Програма для перегляду даних метеостанції')
-    .version('1.0.0', '-V, --version', 'показати версію програми')
-    .helpOption('-h, --help', 'показати довідку')
-    .helpCommand('help [command]', 'показати довідку для команди')
-    .option('-f, --file <path>', 'шлях до JSON-файлу з даними', 'data.json')
+    .description('РџСЂРѕРіСЂР°РјР° РґР»СЏ РїРµСЂРµРіР»СЏРґСѓ РґР°РЅРёС… РјРµС‚РµРѕСЃС‚Р°РЅС†С–С—')
+    .version('1.0.0', '-V, --version', 'РїРѕРєР°Р·Р°С‚Рё РІРµСЂСЃС–СЋ РїСЂРѕРіСЂР°РјРё')
+    .helpOption('-h, --help', 'РїРѕРєР°Р·Р°С‚Рё РґРѕРІС–РґРєСѓ')
+    .helpCommand('help [command]', 'РїРѕРєР°Р·Р°С‚Рё РґРѕРІС–РґРєСѓ РґР»СЏ РєРѕРјР°РЅРґРё')
+    .option('-f, --file <path>', 'С€Р»СЏС… РґРѕ JSON-С„Р°Р№Р»Сѓ Р· РґР°РЅРёРјРё', 'data.json')
     .configureOutput({
-        // перекладаємо повідомлення commander про помилки українською
+        // РїРµСЂРµРєР»Р°РґР°С”РјРѕ РїРѕРІС–РґРѕРјР»РµРЅРЅСЏ commander РїСЂРѕ РїРѕРјРёР»РєРё СѓРєСЂР°С—РЅСЃСЊРєРѕСЋ
         outputError: (str, write) => write(
             str
-                .replace('error: missing required argument', "Помилка: не вказано обов'язковий аргумент")
-                .replace('error: unknown option', 'Помилка: невідома опція')
-                .replace('error: unknown command', 'Помилка: невідома команда')
-                .replace('error: too many arguments', 'Помилка: забагато аргументів')
-                .replace('error: option', 'Помилка: опція')
-                .replace('argument missing', 'потребує значення')
-                .replace('Did you mean', 'Можливо, ви мали на увазі')
+                .replace('error: missing required argument', "РџРѕРјРёР»РєР°: РЅРµ РІРєР°Р·Р°РЅРѕ РѕР±РѕРІ'СЏР·РєРѕРІРёР№ Р°СЂРіСѓРјРµРЅС‚")
+                .replace('error: unknown option', 'РџРѕРјРёР»РєР°: РЅРµРІС–РґРѕРјР° РѕРїС†С–СЏ')
+                .replace('error: unknown command', 'РџРѕРјРёР»РєР°: РЅРµРІС–РґРѕРјР° РєРѕРјР°РЅРґР°')
+                .replace('error: too many arguments', 'РџРѕРјРёР»РєР°: Р·Р°Р±Р°РіР°С‚Рѕ Р°СЂРіСѓРјРµРЅС‚С–РІ')
+                .replace('error: option', 'РџРѕРјРёР»РєР°: РѕРїС†С–СЏ')
+                .replace('argument missing', 'РїРѕС‚СЂРµР±СѓС” Р·РЅР°С‡РµРЅРЅСЏ')
+                .replace('Did you mean', 'РњРѕР¶Р»РёРІРѕ, РІРё РјР°Р»Рё РЅР° СѓРІР°Р·С–')
         )
     });
 
-// Читає JSON-файл, шлях до якого вказано в опції --file
+// Р§РёС‚Р°С” JSON-С„Р°Р№Р», С€Р»СЏС… РґРѕ СЏРєРѕРіРѕ РІРєР°Р·Р°РЅРѕ РІ РѕРїС†С–С— --file
 function readData() {
     const file = program.opts().file;
     try {
@@ -32,34 +32,34 @@ function readData() {
         return JSON.parse(text);
     } catch (err) {
         if (err.code === 'ENOENT') {
-            console.error(`Помилка: файл "${file}" не знайдено.`);
+            console.error(`РџРѕРјРёР»РєР°: С„Р°Р№Р» "${file}" РЅРµ Р·РЅР°Р№РґРµРЅРѕ.`);
         } else {
-            console.error(`Помилка: файл "${file}" містить некоректний JSON.`);
+            console.error(`РџРѕРјРёР»РєР°: С„Р°Р№Р» "${file}" РјС–СЃС‚РёС‚СЊ РЅРµРєРѕСЂРµРєС‚РЅРёР№ JSON.`);
         }
         process.exit(1);
     }
 }
 
-// Шукає датчик за його sensorId
+// РЁСѓРєР°С” РґР°С‚С‡РёРє Р·Р° Р№РѕРіРѕ sensorId
 function findSensor(data, id) {
     const sensor = data.sensors.find((s) => s.sensorId === id);
     if (!sensor) {
-        console.error(`Помилка: датчик з ID "${id}" не знайдено.`);
+        console.error(`РџРѕРјРёР»РєР°: РґР°С‚С‡РёРє Р· ID "${id}" РЅРµ Р·РЅР°Р№РґРµРЅРѕ.`);
         process.exit(1);
     }
     return sensor;
 }
 
-// Перевіряє, чи є показ (value не null і не відсутнє)
+// РџРµСЂРµРІС–СЂСЏС”, С‡Рё С” РїРѕРєР°Р· (value РЅРµ null С– РЅРµ РІС–РґСЃСѓС‚РЅС”)
 function hasValue(reading) {
     return reading.value !== null && reading.value !== undefined;
 }
 
-// Команда list — перелік датчиків
+// РљРѕРјР°РЅРґР° list вЂ” РїРµСЂРµР»С–Рє РґР°С‚С‡РёРєС–РІ
 program
     .command('list')
-    .description('показати перелік датчиків')
-    .option('-l, --limit <number>', 'скільки датчиків показати')
+    .description('РїРѕРєР°Р·Р°С‚Рё РїРµСЂРµР»С–Рє РґР°С‚С‡РёРєС–РІ')
+    .option('-l, --limit <number>', 'СЃРєС–Р»СЊРєРё РґР°С‚С‡РёРєС–РІ РїРѕРєР°Р·Р°С‚Рё')
     .action((options) => {
         const data = readData();
         let sensors = data.sensors;
@@ -67,36 +67,36 @@ program
         if (options.limit !== undefined) {
             const limit = Number(options.limit);
             if (!Number.isInteger(limit) || limit <= 0) {
-                console.error('Помилка: --limit має бути цілим додатним числом.');
+                console.error('РџРѕРјРёР»РєР°: --limit РјР°С” Р±СѓС‚Рё С†С–Р»РёРј РґРѕРґР°С‚РЅРёРј С‡РёСЃР»РѕРј.');
                 process.exit(1);
             }
             sensors = sensors.slice(0, limit);
         }
 
-        console.log(`Станція: ${data.stationId} | Дата: ${data.date} | Місце: ${data.location}`);
-        console.log('--- Датчики ---');
+        console.log(`РЎС‚Р°РЅС†С–СЏ: ${data.stationId} | Р”Р°С‚Р°: ${data.date} | РњС–СЃС†Рµ: ${data.location}`);
+        console.log('--- Р”Р°С‚С‡РёРєРё ---');
         sensors.forEach((s, i) => {
             console.log(`${i + 1}. ${s.sensorId} (${s.type}, ${s.unit})`);
         });
     });
 
-// Команда sensor — один датчик повністю
+// РљРѕРјР°РЅРґР° sensor вЂ” РѕРґРёРЅ РґР°С‚С‡РёРє РїРѕРІРЅС–СЃС‚СЋ
 program
     .command('sensor')
-    .description('показати один датчик повністю')
-    .argument('<id>', 'ID датчика, наприклад S-TEMP-01')
+    .description('РїРѕРєР°Р·Р°С‚Рё РѕРґРёРЅ РґР°С‚С‡РёРє РїРѕРІРЅС–СЃС‚СЋ')
+    .argument('<id>', 'ID РґР°С‚С‡РёРєР°, РЅР°РїСЂРёРєР»Р°Рґ S-TEMP-01')
     .action((id) => {
         const data = readData();
         const sensor = findSensor(data, id);
         console.log(JSON.stringify(sensor, null, 2));
     });
 
-// Команда field — окреме поле датчика (можна вкладене через крапку)
+// РљРѕРјР°РЅРґР° field вЂ” РѕРєСЂРµРјРµ РїРѕР»Рµ РґР°С‚С‡РёРєР° (РјРѕР¶РЅР° РІРєР»Р°РґРµРЅРµ С‡РµСЂРµР· РєСЂР°РїРєСѓ)
 program
     .command('field')
-    .description('показати окреме поле датчика')
-    .argument('<id>', 'ID датчика')
-    .argument('<path>', 'назва поля, вкладені через крапку, наприклад readings.0.value')
+    .description('РїРѕРєР°Р·Р°С‚Рё РѕРєСЂРµРјРµ РїРѕР»Рµ РґР°С‚С‡РёРєР°')
+    .argument('<id>', 'ID РґР°С‚С‡РёРєР°')
+    .argument('<path>', 'РЅР°Р·РІР° РїРѕР»СЏ, РІРєР»Р°РґРµРЅС– С‡РµСЂРµР· РєСЂР°РїРєСѓ, РЅР°РїСЂРёРєР»Р°Рґ readings.0.value')
     .action((id, path) => {
         const data = readData();
         const sensor = findSensor(data, id);
@@ -104,43 +104,43 @@ program
         let value = sensor;
         for (const key of path.split('.')) {
             if (value === null || typeof value !== 'object' || !(key in value)) {
-                console.error(`Помилка: поле "${path}" відсутнє у датчика ${id}.`);
+                console.error(`РџРѕРјРёР»РєР°: РїРѕР»Рµ "${path}" РІС–РґСЃСѓС‚РЅС” Сѓ РґР°С‚С‡РёРєР° ${id}.`);
                 process.exit(1);
             }
             value = value[key];
         }
 
         if (value === null) {
-            console.log(`Поле "${path}" існує, але має значення null (немає даних).`);
+            console.log(`РџРѕР»Рµ "${path}" С–СЃРЅСѓС”, Р°Р»Рµ РјР°С” Р·РЅР°С‡РµРЅРЅСЏ null (РЅРµРјР°С” РґР°РЅРёС…).`);
         } else {
             console.log(`${path}: ${JSON.stringify(value)}`);
         }
     });
 
-// Команда info — характеристики обраного датчика
+// РљРѕРјР°РЅРґР° info вЂ” С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё РѕР±СЂР°РЅРѕРіРѕ РґР°С‚С‡РёРєР°
 program
     .command('info')
-    .description('показати характеристики датчика')
-    .argument('<id>', 'ID датчика')
+    .description('РїРѕРєР°Р·Р°С‚Рё С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё РґР°С‚С‡РёРєР°')
+    .argument('<id>', 'ID РґР°С‚С‡РёРєР°')
     .action((id) => {
         const data = readData();
         const sensor = findSensor(data, id);
         const missing = sensor.readings.filter((r) => !hasValue(r)).length;
 
-        console.log(`Датчик: ${sensor.sensorId}`);
-        console.log(`Тип: ${sensor.type}`);
-        console.log(`Одиниці: ${sensor.unit}`);
-        console.log(`Стан: ${sensor.active ? 'працює' : 'вимкнений'}`);
-        console.log(`Станція: ${data.stationId} (${data.location})`);
-        console.log(`Кількість показів: ${sensor.readings.length}, з них відсутніх: ${missing}`);
+        console.log(`Р”Р°С‚С‡РёРє: ${sensor.sensorId}`);
+        console.log(`РўРёРї: ${sensor.type}`);
+        console.log(`РћРґРёРЅРёС†С–: ${sensor.unit}`);
+        console.log(`РЎС‚Р°РЅ: ${sensor.active ? 'РїСЂР°С†СЋС”' : 'РІРёРјРєРЅРµРЅРёР№'}`);
+        console.log(`РЎС‚Р°РЅС†С–СЏ: ${data.stationId} (${data.location})`);
+        console.log(`РљС–Р»СЊРєС–СЃС‚СЊ РїРѕРєР°Р·С–РІ: ${sensor.readings.length}, Р· РЅРёС… РІС–РґСЃСѓС‚РЅС–С…: ${missing}`);
     });
 
-// Команда readings — серія показів датчика
+// РљРѕРјР°РЅРґР° readings вЂ” СЃРµСЂС–СЏ РїРѕРєР°Р·С–РІ РґР°С‚С‡РёРєР°
 program
     .command('readings')
-    .description('показати серію показів датчика')
-    .argument('<id>', 'ID датчика')
-    .option('-s, --skip-missing', 'не показувати відсутні покази')
+    .description('РїРѕРєР°Р·Р°С‚Рё СЃРµСЂС–СЋ РїРѕРєР°Р·С–РІ РґР°С‚С‡РёРєР°')
+    .argument('<id>', 'ID РґР°С‚С‡РёРєР°')
+    .option('-s, --skip-missing', 'РЅРµ РїРѕРєР°Р·СѓРІР°С‚Рё РІС–РґСЃСѓС‚РЅС– РїРѕРєР°Р·Рё')
     .action((id, options) => {
         const data = readData();
         const sensor = findSensor(data, id);
@@ -150,22 +150,22 @@ program
             readings = readings.filter(hasValue);
         }
 
-        console.log(`Покази ${sensor.sensorId} (${sensor.unit}) за ${data.date}:`);
+        console.log(`РџРѕРєР°Р·Рё ${sensor.sensorId} (${sensor.unit}) Р·Р° ${data.date}:`);
         console.table(readings);
     });
 
-// Команда stats — мінімум, максимум і середнє без відсутніх показів
+// РљРѕРјР°РЅРґР° stats вЂ” РјС–РЅС–РјСѓРј, РјР°РєСЃРёРјСѓРј С– СЃРµСЂРµРґРЅС” Р±РµР· РІС–РґСЃСѓС‚РЅС–С… РїРѕРєР°Р·С–РІ
 program
     .command('stats')
-    .description('мінімум, максимум і середнє значення датчика')
-    .argument('<id>', 'ID датчика')
+    .description('РјС–РЅС–РјСѓРј, РјР°РєСЃРёРјСѓРј С– СЃРµСЂРµРґРЅС” Р·РЅР°С‡РµРЅРЅСЏ РґР°С‚С‡РёРєР°')
+    .argument('<id>', 'ID РґР°С‚С‡РёРєР°')
     .action((id) => {
         const data = readData();
         const sensor = findSensor(data, id);
 
         const values = sensor.readings.filter(hasValue).map((r) => r.value);
         if (values.length === 0) {
-            console.log(`У датчика ${id} немає жодного показу для розрахунку.`);
+            console.log(`РЈ РґР°С‚С‡РёРєР° ${id} РЅРµРјР°С” Р¶РѕРґРЅРѕРіРѕ РїРѕРєР°Р·Сѓ РґР»СЏ СЂРѕР·СЂР°С…СѓРЅРєСѓ.`);
             return;
         }
 
@@ -173,11 +173,11 @@ program
         const max = Math.max(...values);
         const avg = values.reduce((sum, v) => sum + v, 0) / values.length;
 
-        console.log(`Статистика ${sensor.sensorId} (${sensor.type}):`);
-        console.log(`Враховано показів: ${values.length} з ${sensor.readings.length}`);
-        console.log(`Мінімум: ${min}${sensor.unit}`);
-        console.log(`Максимум: ${max}${sensor.unit}`);
-        console.log(`Середнє: ${avg.toFixed(2)}${sensor.unit}`);
+        console.log(`РЎС‚Р°С‚РёСЃС‚РёРєР° ${sensor.sensorId} (${sensor.type}):`);
+        console.log(`Р’СЂР°С…РѕРІР°РЅРѕ РїРѕРєР°Р·С–РІ: ${values.length} Р· ${sensor.readings.length}`);
+        console.log(`РњС–РЅС–РјСѓРј: ${min}${sensor.unit}`);
+        console.log(`РњР°РєСЃРёРјСѓРј: ${max}${sensor.unit}`);
+        console.log(`РЎРµСЂРµРґРЅС”: ${avg.toFixed(2)}${sensor.unit}`);
     });
 
 program.parse();
